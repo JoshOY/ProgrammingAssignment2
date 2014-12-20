@@ -1,4 +1,4 @@
-## function makeCacheMatrix (x = matrix()):
+## function makeCacheMatrix(x = matrix()):
 ## returns a list, which includes several methods to cache the solve of this matrix.
 ## @arguments 
 ##    x: A optional matrix data to initialize the special 'matrix'.
@@ -26,15 +26,23 @@ makeCacheMatrix <- function(x = matrix()) {
 }
 
 
-## Write a short comment describing this function
+## function cacheSolve(x, ...)
+## returns the inverse matrix of X we are using.
+## @arguments
+##    x: the 'matrix' spanned by function makeCacheMatrix.
+##       Must include these attributes: get, set, setSolve, getSolve
 
 cacheSolve <- function(x, ...) {
     ## Return a matrix that is the inverse of 'x'
     s <- x$getSolve()
+    ## If we have already execute 'cacheSolve(X)' and we didn't change the value of X,
+    ## there will be an cache in X and we can get it.
     if (!is.null(s)) {
         message("Getting cached data...")
         return(s)
     }
+    ## If this is the first time we execute this function since the last time we change the value of X,
+    ## then execute these blocks...
     data <- x$get()
     m <- solve(data, ...)
     x$setSolve(m)
